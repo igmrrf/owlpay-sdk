@@ -556,6 +556,47 @@ describe('TransfersService', () => {
       const result = await service.create(baseReq);
       expect(result).toEqual(fakeResponse);
     });
+
+    test('successfully handles full sample data', async () => {
+      const fullReq = {
+        on_behalf_of: "cust_uuid_123",
+        quote_id: "quote_uuid_456",
+        application_transfer_uuid: "app_txfr_uuid_789",
+        source: {
+          payment_instrument: {
+            address: "0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db"
+          }
+        },
+        destination: {
+          beneficiary_info: {
+            beneficiary_dob: "1990-01-01",
+            beneficiary_id_doc_number: "12345678",
+            beneficiary_address: {
+              street: "xxx 1234th Ave S",
+              city: "Minneapolis",
+              state_province: "MN",
+              postal_code: "55416",
+              country: "US"
+            },
+            beneficiary_name: "John Doe"
+          },
+          payout_instrument: {
+            bank_name: "The Hongkong and Shanghai Banking Corporation Limited",
+            account_holder_name: "CHAN TAI MAN",
+            account_number: "123456789012",
+            swift_code: "HSBCHKHH"
+          },
+          transfer_purpose: "SALARY" as const,
+          is_self_transfer: true
+        }
+      };
+
+      mocks.mockPost.mockImplementation(() => Promise.resolve({ data: { uuid: 'txfr_abc' } }));
+      await service.create(fullReq);
+
+      const [, body] = mocks.mockPost.mock.calls[0] as [string, unknown];
+      expect(body).toEqual(fullReq);
+    });
   });
 
   describe('get()', () => {

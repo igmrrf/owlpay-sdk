@@ -1,17 +1,17 @@
 // ─── Customer Types ───────────────────────────────────────────────────────────
 
 export type CustomerStatus =
-  | 'deactivated'
-  | 'unfinished'
-  | 'finished'
-  | 'verifying'
-  | 'verified'
-  | 'rejected'
-  | 'declined'
-  | 'request_for_information';
+  | "deactivated"
+  | "unfinished"
+  | "finished"
+  | "verifying"
+  | "verified"
+  | "rejected"
+  | "declined"
+  | "request_for_information";
 
 export interface CreateCustomerRequest {
-  type: 'individual';
+  type: "individual" | "business";
   first_name: string;
   middle_name?: string | undefined;
   last_name: string;
@@ -25,7 +25,7 @@ export interface CreateCustomerRequest {
 export interface Customer {
   uuid: string;
   status: CustomerStatus;
-  type: 'individual';
+  type: "individual";
   first_name: string;
   middle_name: string | null;
   last_name: string;
@@ -63,10 +63,10 @@ export interface BankWidgetResponse {
 export interface LinkedBankAccount {
   id: string;
   name: string;
-  type: 'CHECKING' | 'SAVINGS';
+  type: "CHECKING" | "SAVINGS";
   connection: {
     institution_name: string;
-    status: 'CONNECTED' | 'DISCONNECTED' | 'PENDING';
+    status: "CONNECTED" | "DISCONNECTED" | "PENDING";
     is_syncing: boolean;
     last_synced_at: string;
   };
@@ -78,11 +78,16 @@ export interface LinkedBankAccountsResponse {
 
 // ─── Card Types ───────────────────────────────────────────────────────────────
 
-export type CardStatus = 'pending' | 'active' | 'expired' | 'disabled' | 'restricted';
+export type CardStatus =
+  | "pending"
+  | "active"
+  | "expired"
+  | "disabled"
+  | "restricted";
 
 export interface CustomerCard {
   uuid: string;
-  object: 'customer_card';
+  object: "customer_card";
   customer_uuid: string;
   status: CardStatus;
   last4_digits: string | null;
@@ -110,13 +115,13 @@ export interface BindCardRequest {
 // ─── Wallet Types ─────────────────────────────────────────────────────────────
 
 export type Chain =
-  | 'ethereum'
-  | 'arbitrum'
-  | 'polygon'
-  | 'avalanche'
-  | 'optimism'
-  | 'stellar'
-  | 'solana';
+  | "ethereum"
+  | "arbitrum"
+  | "polygon"
+  | "avalanche"
+  | "optimism"
+  | "stellar"
+  | "solana";
 
 export interface CreateWalletRequest {
   chain: Chain;
@@ -143,7 +148,7 @@ export interface WalletBalance {
 
 export interface WalletRecord {
   id: string;
-  type: 'deposit' | 'withdrawal';
+  type: "deposit" | "withdrawal";
   amount: string;
   token_symbol: string;
   from_address: string;
@@ -155,7 +160,7 @@ export interface WalletRecord {
 
 // ─── Quote Types ──────────────────────────────────────────────────────────────
 
-export type PaymentMethod = 'ON_CHAIN' | 'WIRE' | 'ACH_PULL' | 'DEBIT_CARD';
+export type PaymentMethod = "ON_CHAIN" | "WIRE" | "ACH_PULL" | "DEBIT_CARD";
 
 export interface QuoteRequest {
   source: {
@@ -163,14 +168,14 @@ export interface QuoteRequest {
     chain?: string;
     asset: string;
     amount?: number;
-    type?: 'individual' | 'business';
+    type?: "individual" | "business";
   };
   destination: {
     country?: string;
     chain?: string;
     asset: string;
     amount?: number;
-    type?: 'individual' | 'business';
+    type?: "individual" | "business";
   };
   commission?: {
     percentage?: number;
@@ -179,7 +184,7 @@ export interface QuoteRequest {
 }
 
 export interface QuoteFee {
-  type: 'HARBOR_FEE' | 'COMMISSION_FEE';
+  type: "HARBOR_FEE" | "COMMISSION_FEE";
   amount: string;
   currency: string;
   charge_from: string;
@@ -215,12 +220,12 @@ export interface QuoteItem {
   exchange_pair: string;
   crypto_settlement_time_min: number | null;
   crypto_settlement_time_max: number | null;
-  crypto_settlement_time_unit: 'MINUTES' | null;
+  crypto_settlement_time_unit: "MINUTES" | null;
   fiat_settlement_time_min: number | null;
   fiat_settlement_time_max: number | null;
-  fiat_settlement_time_unit: 'DAYS' | null;
-  source_type: 'individual' | 'business' | null;
-  destination_type: 'individual' | 'business' | null;
+  fiat_settlement_time_unit: "DAYS" | null;
+  source_type: "individual" | "business" | null;
+  destination_type: "individual" | "business" | null;
   quote_expire_date: string;
   crypto_funds_settlement_expire_date: string | null;
   fees: QuoteFee[];
@@ -236,52 +241,52 @@ export interface QuoteResponse {
 // ─── Transfer Types ───────────────────────────────────────────────────────────
 
 export type TransferStatus =
-  | 'pending_customer_transfer_start'
-  | 'pending_customer_transfer_complete'
-  | 'pending_external'
-  | 'pending_harbor'
-  | 'on_hold'
-  | 'request_for_information'
-  | 'pending_customer'
-  | 'completed'
-  | 'refunded'
-  | 'expired'
-  | 'cancelled'
-  | 'reject'
-  | 'error';
+  | "pending_customer_transfer_start"
+  | "pending_customer_transfer_complete"
+  | "pending_external"
+  | "pending_harbor"
+  | "on_hold"
+  | "request_for_information"
+  | "pending_customer"
+  | "completed"
+  | "refunded"
+  | "expired"
+  | "cancelled"
+  | "reject"
+  | "error";
 
 export type TransferPurpose =
-  | 'TRANSFER_TO_OWN_ACCOUNT'
-  | 'FAMILY_MAINTENANCE'
-  | 'EDUCATION'
-  | 'MEDICAL_TREATMENT'
-  | 'HOTEL'
-  | 'TRAVEL'
-  | 'REPAYMENT_OF_LOANS'
-  | 'TAX_PAYMENT'
-  | 'PURCHASE_PROPERTY'
-  | 'PROPERTY_RENTAL'
-  | 'INSURANCE_PREMIUM'
-  | 'PRODUCT_INDEMNITY_INSURANCE'
-  | 'INSURANCE_CLAIMS'
-  | 'MUTUAL_FUND_INVESTMENT'
-  | 'INVESTMENT_SHARES'
-  | 'DONATIONS'
-  | 'SALARY'
-  | 'INFO_SERVICE'
-  | 'ADVERTISING'
-  | 'ROYALTY_FEES'
-  | 'BROKER_FEES'
-  | 'ADVISOR_FEES'
-  | 'REPRESENTATIVE_EXPENSES'
-  | 'CONSTRUCTION'
-  | 'TRANSPORTATION'
-  | 'EXPORTED_GOODS'
-  | 'DELIVERY_FEES'
-  | 'GENERAL_GOODS_OFFLINE';
+  | "TRANSFER_TO_OWN_ACCOUNT"
+  | "FAMILY_MAINTENANCE"
+  | "EDUCATION"
+  | "MEDICAL_TREATMENT"
+  | "HOTEL"
+  | "TRAVEL"
+  | "REPAYMENT_OF_LOANS"
+  | "TAX_PAYMENT"
+  | "PURCHASE_PROPERTY"
+  | "PROPERTY_RENTAL"
+  | "INSURANCE_PREMIUM"
+  | "PRODUCT_INDEMNITY_INSURANCE"
+  | "INSURANCE_CLAIMS"
+  | "MUTUAL_FUND_INVESTMENT"
+  | "INVESTMENT_SHARES"
+  | "DONATIONS"
+  | "SALARY"
+  | "INFO_SERVICE"
+  | "ADVERTISING"
+  | "ROYALTY_FEES"
+  | "BROKER_FEES"
+  | "ADVISOR_FEES"
+  | "REPRESENTATIVE_EXPENSES"
+  | "CONSTRUCTION"
+  | "TRANSPORTATION"
+  | "EXPORTED_GOODS"
+  | "DELIVERY_FEES"
+  | "GENERAL_GOODS_OFFLINE";
 
 export interface TransferFee {
-  type: 'HARBOR_FEE' | 'COMMISSION_FEE';
+  type: "HARBOR_FEE" | "COMMISSION_FEE";
   amount: string;
   currency: string;
 }
@@ -295,6 +300,19 @@ export interface TransferReceipt {
   final_amount: string;
   exchange_rate: string;
   transaction_hash: string | null;
+}
+
+export interface PayoutInstrument {
+  bank_name?: string;
+  account_holder_name?: string;
+  account_number?: string;
+  swift_code?: string;
+  [key: string]: unknown;
+}
+
+export interface PaymentInstrument {
+  address?: string;
+  [key: string]: unknown;
 }
 
 export interface BeneficiaryInfo {
@@ -327,9 +345,9 @@ export interface OnChainInstructions {
 
 export interface Transfer {
   uuid: string;
-  object: 'transfer';
+  object: "transfer";
   status: TransferStatus;
-  type: 'on-ramp' | 'off-ramp' | 'swap';
+  type: "on-ramp" | "off-ramp" | "swap";
   settlement_strategy?: string;
   source_received?: boolean;
   on_behalf_of: string;
@@ -343,13 +361,16 @@ export interface Transfer {
     amount: string;
     chain?: string;
     country?: string;
-    payout_instrument?: Record<string, unknown>;
+    payout_instrument?: PayoutInstrument;
     beneficiary_info?: BeneficiaryInfo;
     is_self_transfer?: boolean;
     transfer_purpose?: TransferPurpose;
   };
   application_transfer_uuid: string;
-  transfer_instructions: OnRampWireInstructions | OnChainInstructions | Record<string, unknown>;
+  transfer_instructions:
+    | OnRampWireInstructions
+    | OnChainInstructions
+    | Record<string, unknown>;
   rfi_link?: string;
   commission: { percentage: string; amount: string };
   fees: TransferFee[];
@@ -366,18 +387,18 @@ export interface TransferResponse {
 // ─── Webhook Types ────────────────────────────────────────────────────────────
 
 export type WebhookEventType =
-  | '*'
-  | 'customer.kyc.verifying'
-  | 'customer.kyc.verified'
-  | 'customer.kyc.revoked'
-  | 'customer.kyc.rejected'
-  | 'customer.kyc.declined'
-  | 'transfer.status.completed'
-  | 'transfer.status.expired'
-  | 'transfer.status.on_hold'
-  | 'transfer.status.pending_harbor'
-  | 'transfer.status.rejected'
-  | 'wallet.balance.updated';
+  | "*"
+  | "customer.kyc.verifying"
+  | "customer.kyc.verified"
+  | "customer.kyc.revoked"
+  | "customer.kyc.rejected"
+  | "customer.kyc.declined"
+  | "transfer.status.completed"
+  | "transfer.status.expired"
+  | "transfer.status.on_hold"
+  | "transfer.status.pending_harbor"
+  | "transfer.status.rejected"
+  | "wallet.balance.updated";
 
 export interface WebhookSubscription {
   uuid: string;
@@ -420,8 +441,11 @@ export interface CreateTransferRequest {
   quote_id: string;
   on_behalf_of: string;
   application_transfer_uuid: string;
+  source?: {
+    payment_instrument?: PaymentInstrument;
+  };
   destination?: {
-    payout_instrument?: Record<string, unknown>;
+    payout_instrument?: PayoutInstrument;
     beneficiary_info?: BeneficiaryInfo;
     is_self_transfer?: boolean;
     transfer_purpose?: TransferPurpose;
@@ -435,8 +459,8 @@ export interface WithdrawalSetting {
   source_currency: string;
   destination_country: string;
   destination_currency: string;
-  source_type: 'individual' | 'business';
-  destination_type: 'individual' | 'business';
+  source_type: "individual" | "business";
+  destination_type: "individual" | "business";
   source_amount: {
     currency: string;
     min: number;
