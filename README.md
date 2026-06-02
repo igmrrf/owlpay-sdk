@@ -1,10 +1,10 @@
 # owlpay-sdk
 
-TypeScript SDK for the [OwlPay Harbor API](https://owlpay.com). Supports Node.js, Bun, Deno, and browsers.
+Unofficial TypeScript SDK for the [OwlPay Harbor API](https://owlpay.com). Supports Node.js, Bun, Deno, and browsers.
 
 ## Requirements
 
-Node.js ≥ 18, Bun, Deno, or any runtime with native `fetch` and `crypto.subtle`.
+Node.js ≥ 20, Bun, Deno, or any runtime with native `fetch` and `crypto.subtle`.
 
 ## Installation
 

@@ -1,4 +1,4 @@
-// OwlPay Harbor API client — requires fetch (Node 18+, Bun, Deno, browsers)
+// OwlPay Harbor API client — requires fetch (Node 20+, Bun, Deno, browsers)
 
 type Method = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
 
